@@ -2,14 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
-// NOTES
-// [DONE] - Display the location for each move in the format (col, row) in the move history list.
-// [DONE] - Bold the currently selected item in the move list.
-// [DONE] - Rewrite Board to use two loops to make the squares instead of hardcoding them.
-// [ ] - Add a toggle button that lets you sort the moves in either ascending or descending order.
-// [DONE] - When someone wins, highlight the three squares that caused the win.
-// [DONE] - When no one wins, display a message about the result being a draw.
-
 function Square(props) {
   return (
     <button className={"square "+props.squareClass} onClick={props.onClick}>
@@ -98,6 +90,14 @@ class Game extends React.Component {
     })
   }
 
+  restartGame() {
+    // When the restart button is pressed the history is reduced to it's initialized state
+    this.setState({
+      history: this.state.history.slice(0, 1),
+      stepNumber: 0,
+    })
+  }
+
   render() {
     const history = this.state.history;
     const stepNumber = this.state.stepNumber;
@@ -150,6 +150,7 @@ class Game extends React.Component {
           <div className="display-6 mb-4">{status}</div>
           <div className=""><button className="btn btn-light border" onClick={() => this.reverseOrder()}>Change order: {order ? "Descending" : "Ascending"}</button></div>
           <ol reversed={order}>{movesOrdered}</ol>
+          <div className=""><button className="btn btn-light border" onClick={() => this.restartGame()}>Restart Game</button></div>
         </div>
       </div>
     );
